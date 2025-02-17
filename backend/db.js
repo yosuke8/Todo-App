@@ -1,17 +1,20 @@
-const Database = require("better-sqlite3");
+const { Pool } = require("pg");
 
-// `database.db` というファイルを作成（なければ自動生成）
-const db = new Database("./database.db");
+// Render の環境変数 `DATABASE_URL` を使用
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,  // Render の PostgreSQL では必要
+  },
+});
 
-// テーブル作成
-db.exec(`
+// テーブルを作成
+pool.query(`
   CREATE TABLE IF NOT EXISTS todos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     text TEXT NOT NULL,
-    completed BOOLEAN NOT NULL DEFAULT 0
+    completed BOOLEAN NOT NULL DEFAULT false
   )
 `);
 
-console.log("Connected to SQLite database.");
-
-module.exports = db;
+module.exports = pool;
