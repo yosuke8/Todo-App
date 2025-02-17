@@ -1,4 +1,4 @@
-const sqlite3 = require("sqlite3").verbose();
+const sqlite3 = require("better-sqlite3").verbose();
 
 // `database.db` というファイルを作成（なければ自動生成）
 const db = new sqlite3.Database("./database.db", (err) => {
