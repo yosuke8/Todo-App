@@ -1,23 +1,17 @@
-const sqlite3 = require("better-sqlite3").verbose();
+const Database = require("better-sqlite3");
 
 // `database.db` というファイルを作成（なければ自動生成）
-const db = new sqlite3.Database("./database.db", (err) => {
-  if (err) {
-    console.error("Database connection error:", err);
-  } else {
-    console.log("Connected to SQLite database.");
-  }
-});
+const db = new Database("./database.db");
 
 // テーブル作成
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS todos (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      text TEXT NOT NULL,
-      completed BOOLEAN NOT NULL DEFAULT 0
-    )
-  `);
-});
+db.exec(`
+  CREATE TABLE IF NOT EXISTS todos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT NOT NULL,
+    completed BOOLEAN NOT NULL DEFAULT 0
+  )
+`);
+
+console.log("Connected to SQLite database.");
 
 module.exports = db;
