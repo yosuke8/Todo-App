@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 // import { App } from './App';
 // import { App_localstrage } from './App_localstrage';
-import { App_JsonServer } from './App_JsonServer';
+import AppJsonServer from './App_JsonServer';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +12,7 @@ root.render(
   <React.StrictMode>
     {/* <App /> */}
     {/* <App_localstrage /> */}
-    <App_JsonServer />
+  <AppJsonServer />
   </React.StrictMode>
 );
 

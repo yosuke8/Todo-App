@@ -1,4 +1,4 @@
-import { CheckIcon, TimeIcon } from "@chakra-ui/icons"
+import { CheckIcon } from "@chakra-ui/icons"
 import { Box, Button, HStack, Heading, List, ListIcon, ListItem, Text } from "@chakra-ui/react"
 import { FC } from "react"
 
@@ -17,7 +17,7 @@ export const CompleteArea: FC<Props> = (props) => {
                 {completeTodos.map((todo) => (
                     <ListItem key={todo.id} bg="white" p={3} borderRadius="md" boxShadow="sm">
                         <HStack justify="space-between">
-                            {todo.text != "" ?
+                            {todo.text !== "" ?
                                 <>
                                     <HStack>
                                         <ListIcon as={CheckIcon} color='green.500' />

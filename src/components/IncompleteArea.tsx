@@ -18,7 +18,7 @@ export const IncompleteArea: FC<Props> = (props) => {
                 {incompleteTodos.map((todo) => (
                     <ListItem key={todo.id} bg="white" p={3} borderRadius="md" boxShadow="sm">
                         <HStack justify="space-between">
-                            {todo.text != "" ?
+                            {todo.text !== "" ?
                                 <>
                                     <HStack>
                                         <ListIcon as={TimeIcon} color='green.500' />

@@ -6,7 +6,7 @@ import { InputTodo } from "./components/InputTodo";
 import { IncompleteArea } from "./components/IncompleteArea";
 import { CompleteArea } from "./components/CompleteArea";
 
-export const App_JsonServer = () => {
+const AppJsonServer = () => {
     // フロントで使うAPIのベースURL。Vercelでは `REACT_APP_API_URL` を設定してください。
     const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:3001";
     //   const [incompleteTodos, setIncompleteTodos] = useState<Array<{ id: number; text: string; completed:boolean }>>([]);
@@ -19,7 +19,7 @@ export const App_JsonServer = () => {
             const todos = res.data;
             setTodos(todos);
         });
-    }, []);
+    }, [API_BASE]);
 
     // タスクを追加
     const onClickAdd = async () => {
@@ -30,7 +30,9 @@ export const App_JsonServer = () => {
         if (newTodo === "") return;
 
         // 期限未指定の場合はタスク名のみ、そうでない場合はタスク名と時間をセット
-        newTodoTime === "" ? newTodo = newTodo : newTodo = `${newTodo} (${newTodoTime})`;
+        if (newTodoTime !== "") {
+            newTodo = `${newTodo} (${newTodoTime})`;
+        }
         const newTodoObj = { text: newTodo, completed: false };
 
         const response = await axios.post(`${API_BASE}/todos`, newTodoObj);
@@ -84,3 +86,5 @@ export const App_JsonServer = () => {
         </ChakraProvider>
     );
 };
+
+export default AppJsonServer;
