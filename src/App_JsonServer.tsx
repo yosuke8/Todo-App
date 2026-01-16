@@ -7,13 +7,15 @@ import { IncompleteArea } from "./components/IncompleteArea";
 import { CompleteArea } from "./components/CompleteArea";
 
 export const App_JsonServer = () => {
+    // フロントで使うAPIのベースURL。Vercelでは `REACT_APP_API_URL` を設定してください。
+    const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:3001";
     //   const [incompleteTodos, setIncompleteTodos] = useState<Array<{ id: number; text: string; completed:boolean }>>([]);
     //   const [completeTodos, setCompleteTodos] = useState<Array<{ id: number; text: string; completed:boolean }>>([]);
     const [todos, setTodos] = useState<Array<{ id: number; text: string; completed: boolean }>>([]);
 
     // 初回レンダリング時にAPIからデータを取得
     useEffect(() => {
-        axios.get("http://localhost:3001/todos").then((res) => {
+        axios.get(`${API_BASE}/todos`).then((res) => {
             const todos = res.data;
             setTodos(todos);
         });
@@ -31,7 +33,7 @@ export const App_JsonServer = () => {
         newTodoTime === "" ? newTodo = newTodo : newTodo = `${newTodo} (${newTodoTime})`;
         const newTodoObj = { text: newTodo, completed: false };
 
-        const response = await axios.post("http://localhost:3001/todos", newTodoObj);
+        const response = await axios.post(`${API_BASE}/todos`, newTodoObj);
         setTodos([...todos, response.data]);
 
         inputElement.value = "";
@@ -39,13 +41,13 @@ export const App_JsonServer = () => {
 
     // タスクを削除
     const onClickRemove = async (id: number) => {
-        await axios.delete(`http://localhost:3001/todos/${id}`);
+        await axios.delete(`${API_BASE}/todos/${id}`);
         setTodos(todos.filter((todo) => todo.id !== id));
     };
 
     // タスクを完了にする
     const onClickComplete = async (id: number) => {
-        await axios.patch(`http://localhost:3001/todos/${id}`, { completed: true });
+        await axios.patch(`${API_BASE}/todos/${id}`, { completed: true });
 
         setTodos(todos.map(todo =>
             todo.id === id ? { ...todo, completed: true } : todo
@@ -54,7 +56,7 @@ export const App_JsonServer = () => {
 
     // タスクを未完了に戻す
     const onClickBack = async (id: number) => {
-        await axios.patch(`http://localhost:3001/todos/${id}`, { completed: false });
+        await axios.patch(`${API_BASE}/todos/${id}`, { completed: false });
         setTodos(todos.map(todo =>
             todo.id === id ? { ...todo, completed: false } : todo
         ));
